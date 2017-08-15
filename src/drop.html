@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1,
+        #div2 {
+            float: left;
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .coin {
+            border: solid 1px #777;
+            display: inline-block;
+            border-radius: 15px;
+        }
+
+        .penny {
+            background-color: #b87333;
+            padding: 10px;
+        }
+
+        .nickel {
+            background-color: #C0C0C0;
+            padding: 12px;
+        }
+
+        .dime {
+            background-color: #C0C0C0;
+            padding: 7px;
+        }
+
+        .quarter {
+            background-color: #C0C0C0;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Drag and Drop</h2>
+    <p>Drag the circle and forth between the two div elements.</p>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div draggable="true" ondragstart="drag(event)" class="coin penny" id="drag1"></div>
+        <div draggable="true" ondragstart="drag(event)" class="coin nickel" id="drag2"></div>
+        <div draggable="true" ondragstart="drag(event)" class="coin dime" id="drag3"></div>
+        <div draggable="true" ondragstart="drag(event)" class="coin quarter" id="drag4"></div>
+    </div>
+
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    Count:
+    <div id="count">0</div>
+    <script src="scripts/drop.js"></script>
+</body>
+
+</html>

@@ -1,15 +1,33 @@
 // Sass configuration
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
+    concat = require('gulp-concat');
     connect = require('gulp-connect'),
+    minifycss = require('gulp-minify-css'),
     rimraf = require('gulp-rimraf'),
-    src = './src/'
+    src = './src/',
+    jsSrc = src + 'scripts/',
     dest = './public/';
 
+var files = [
+    jsSrc + 'modernizr.custom.97074.js',
+    jsSrc + 'jquery-1.10.2.min.js',
+    jsSrc + 'bootstrap.min.js',
+    jsSrc + 'jquery.easing.1.3.js',
+    jsSrc + 'jquery.animate-enhanced.min.js',
+    jsSrc + 'jquery.superslides.js',
+    jsSrc + 'owl.carousel.js',
+    jsSrc + 'jquery.hoverdir.js',
+    jsSrc + 'jquery.fancybox.js',
+    jsSrc + 'magic.js',
+    jsSrc + 'settings.js'
+];
+
 gulp.task('sass', function () {
-    return gulp.src(src + '**/*.scss')
-        .pipe(sass())
-        .pipe(gulp.dest(dest))
+    return gulp.src(src + '**/*.css')
+        .pipe(minifycss())
+        .pipe(concat('main.min.css'))
+        .pipe(gulp.dest(dest + '/styles'))
         .pipe(connect.reload());
 });
 
@@ -25,8 +43,9 @@ gulp.task('images', function () {
 });
 
 gulp.task('scripts', function () {
-    return gulp.src(src + '**/scripts/*.*')
-        .pipe(gulp.dest(dest))
+    return gulp.src(files)
+        .pipe(concat('main.min.js'))    
+        .pipe(gulp.dest(dest + '/scripts'))
         .pipe(connect.reload());
 });
 
@@ -48,10 +67,9 @@ gulp.task('src', function(){
     .pipe(gulp.dest(dest));
 });
 
-
 gulp.task('watch', function () {
-    gulp.watch([src + '**.*'],['src']);
-    // gulp.watch([src + '**/*.scss'], ['sass']);
+    gulp.watch([src + '**/*.css'], ['sass']);
+    //gulp.watch([src + '**.*'],['src']);
     // gulp.watch([src + '**/scripts/*.js'], ['scripts']);
     // gulp.watch([src + '**/*.html'], ['html']);
 });
@@ -68,4 +86,4 @@ gulp.task('build',['clean'],function(){
 
 gulp.task('local', ['sass', 'html', 'scripts', 'fonts', 'images']);
 
-gulp.task('default', ['src', 'connect', 'watch']);
+gulp.task('default', ['fonts', 'images','scripts','html','sass', 'connect', 'watch']);
