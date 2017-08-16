@@ -1,4 +1,6 @@
 // Sass configuration
+//	hsl(140, 61%, 32%)
+// #208542
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat');
@@ -20,13 +22,15 @@ var files = [
     jsSrc + 'jquery.hoverdir.js',
     jsSrc + 'jquery.fancybox.js',
     jsSrc + 'magic.js',
-    jsSrc + 'settings.js'
+    jsSrc + 'settings.js',
+    jsSrc + 'drop.js'
 ];
 
 gulp.task('sass', function () {
-    return gulp.src(src + '**/*.css')
-        .pipe(minifycss())
+    return gulp.src(src + '**/*.scss')
+        .pipe(sass())
         .pipe(concat('main.min.css'))
+        .pipe(minifycss())
         .pipe(gulp.dest(dest + '/styles'))
         .pipe(connect.reload());
 });
@@ -45,6 +49,12 @@ gulp.task('images', function () {
 gulp.task('scripts', function () {
     return gulp.src(files)
         .pipe(concat('main.min.js'))    
+        .pipe(gulp.dest(dest + '/scripts'))
+        .pipe(connect.reload());
+});
+
+gulp.task('dropjs', function () {
+    return gulp.src( src + 'scripts/drop.js')
         .pipe(gulp.dest(dest + '/scripts'))
         .pipe(connect.reload());
 });
@@ -69,9 +79,9 @@ gulp.task('src', function(){
 
 gulp.task('watch', function () {
     gulp.watch([src + '**/*.css'], ['sass']);
+    gulp.watch([src + '**/scripts/*.js'], ['scripts','dropjs']);
     //gulp.watch([src + '**.*'],['src']);
-    // gulp.watch([src + '**/scripts/*.js'], ['scripts']);
-    // gulp.watch([src + '**/*.html'], ['html']);
+    gulp.watch([src + '**/*.html'], ['html']);
 });
 
 gulp.task('clean', function(){
@@ -86,4 +96,4 @@ gulp.task('build',['clean'],function(){
 
 gulp.task('local', ['sass', 'html', 'scripts', 'fonts', 'images']);
 
-gulp.task('default', ['fonts', 'images','scripts','html','sass', 'connect', 'watch']);
+gulp.task('default', ['fonts', 'images','dropjs','scripts','html','sass', 'connect', 'watch']);
